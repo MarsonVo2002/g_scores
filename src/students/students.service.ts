@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Student } from './entity/student.entity';
-import { LessThan, MoreThanOrEqual, Repository } from 'typeorm';
+import { IsNull, LessThan, MoreThanOrEqual, Not, Repository } from 'typeorm';
 
 @Injectable()
 export class StudentsService {
@@ -9,7 +9,6 @@ export class StudentsService {
     private readonly studentRepository: Repository<Student>,) { }
     async findOne(sbd: string): Promise<Student> {
         const student = await this.studentRepository.findOne({ where: { sbd } });
-        this.studentRepository.count
         if (!student) {
             throw new NotFoundException(`Student with sbd ${sbd} not found`);
         }
@@ -53,5 +52,25 @@ export class StudentsService {
             report[subject] = counts;
         }
         return report
+    }
+    async findTopTen(): Promise<Student[]> {
+        try {
+            const students = await this.studentRepository.find({
+                where: {
+                    toan: Not(IsNull()),
+                    vat_li: Not(IsNull()),
+                    hoa_hoc: Not(IsNull()),
+                },
+            });
+            return students
+            .sort((a, b) =>
+                ((b.hoa_hoc ?? 0) + (b.toan ?? 0) + (b.vat_li ?? 0)) -
+                ((a.hoa_hoc ?? 0) + (a.toan ?? 0) + (a.vat_li ?? 0))
+            )
+            .slice(0, 10);
+        } catch (error) {
+            throw new NotFoundException("Can't find top ten student");
+        }
+
     }
 }

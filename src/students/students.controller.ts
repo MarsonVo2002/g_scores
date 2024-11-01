@@ -10,6 +10,11 @@ export class StudentsController {
     console.log("Get Report");
     return this.studentsService.Report();
   }
+  @Get('top-ten')
+  async getTopTenA() {
+    console.log("Get Top Ten");
+    return this.studentsService.findTopTen();
+  }
   @Get(':sbd')
   async getStudentBySbd(@Param('sbd') sbd: string): Promise<Student> {
     console.log("Get student");
