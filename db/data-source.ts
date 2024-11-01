@@ -1,14 +1,13 @@
 import { Student } from "src/students/entity/student.entity";
 import { DataSource, DataSourceOptions } from "typeorm";
+import { config } from 'dotenv';
+
+config();
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "root",
-  password: "123456",
-  database: "G-scores",
-  entities: [Student], 
-  synchronize: true, 
+  url: process.env.DATABASE_URL,
+  entities: [Student],
+  synchronize: false,
   migrations: ["dist/db/migrations/*.js"],
 }
 const dataSource = new DataSource(dataSourceOptions);
