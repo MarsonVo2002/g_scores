@@ -5,9 +5,12 @@ import { config } from 'dotenv';
 config();
 export const dataSourceOptions: DataSourceOptions = {
   type: "postgres",
+  //Change the database url as instruction in env.txt
   url: process.env.DATABASE_URL,
   entities: [Student],
+  //Change to true
   synchronize: false,
+  //Comment the ssl
   ssl: {
     rejectUnauthorized: false,
   },
