@@ -6,6 +6,6 @@ async function bootstrap() {
   app.enableCors();
   // const seedService = app.get(SeedService);
   // await seedService.seed('src/dataset/diem_thi_thpt_2024.csv');
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 4000);
 }
 bootstrap();
