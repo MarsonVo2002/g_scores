@@ -1,8 +1,0 @@
-services:
-  - name: db
-    type: psql  
-    plan: starter
-    env:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: G-scores
