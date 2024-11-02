@@ -8,6 +8,9 @@ export const dataSourceOptions: DataSourceOptions = {
   url: process.env.DATABASE_URL,
   entities: [Student],
   synchronize: false,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   migrations: ["dist/db/migrations/*.js"],
 }
 const dataSource = new DataSource(dataSourceOptions);
